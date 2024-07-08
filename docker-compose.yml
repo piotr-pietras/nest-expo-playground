@@ -1,0 +1,36 @@
+version: "3.1"
+
+services:
+  backend:
+    env_file:
+      - .env
+    container_name: nest-expo-playground-backend
+    build:
+      dockerfile: dockerfile.backend
+      context: .
+    restart: always
+    ports:
+      - "${HOST_PORT}:${HOST_PORT}"
+    environment:
+      ENVIRONMENT: ${ENVIRONMENT}
+    volumes:
+      - type: bind
+        source: ./backend/src
+        target: /src
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    container_name: nest-expo-playground-database
+    image: postgres:latest
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 4s
+      timeout: 4s
+      retries: 9999
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - ${DB_PORT}:5432

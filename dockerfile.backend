@@ -1,0 +1,8 @@
+FROM node:20
+WORKDIR /
+COPY ./scripts/start.backend.sh start.backend.sh
+COPY backend/. . 
+COPY .env .env
+RUN npm install
+
+CMD ["bash", "start.backend.sh"]
