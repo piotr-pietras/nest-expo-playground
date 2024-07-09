@@ -18,7 +18,7 @@ export const appSlice = createSlice({
     setInit: (state, { payload }: PayloadAction<boolean>) => {
       state.isInit = payload;
     },
-    isLoading: (state, { payload }: PayloadAction<boolean>) => {
+    setLoading: (state, { payload }: PayloadAction<boolean>) => {
       state.isLoading = payload;
     },
   },
