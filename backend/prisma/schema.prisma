@@ -25,6 +25,6 @@ model Post {
   title String
   body String
   author String
-  user User @relation(fields: [author], references: [id])
+  user User @relation(fields: [author], references: [id]) 
   timestamp DateTime @default(now())
 }

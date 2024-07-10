@@ -24,6 +24,7 @@ export class UserService {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password, ...user } = await this.prisma.user.findFirstOrThrow({
         where: { id: { equals: userId } },
+        include: { posts: { select: { id: true } } },
       });
       return user;
     } catch (error) {

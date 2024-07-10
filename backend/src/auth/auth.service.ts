@@ -10,7 +10,10 @@ export class AuthService {
   ) {}
 
   async signUp(email: string, password: string) {
-    const user = await this.prisma.user.create({ data: { email, password } });
+    const user = await this.prisma.user.create({
+      data: { email, password },
+      include: { posts: { select: { id: true } } },
+    });
     const payload = { sub: user.id, email: user.email };
     return { access_token: await this.jwt.signAsync(payload) };
   }

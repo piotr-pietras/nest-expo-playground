@@ -4,18 +4,21 @@ import "react-native-reanimated";
 import { Provider } from "react-redux";
 import { Stack } from "expo-router";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export default function RootLayout() {
   return (
     <Provider store={store}>
       <PaperProvider>
-        <SafeAreaProvider>
-          <Stack screenOptions={{ header: () => <></> }}>
-            <Stack.Screen name="index" />
-            <Stack.Screen name="auth/index" />
-            <Stack.Screen name="home" />
-          </Stack>
-        </SafeAreaProvider>
+        <GestureHandlerRootView>
+          <SafeAreaProvider>
+            <Stack screenOptions={{ header: () => <></> }}>
+              <Stack.Screen name="index" />
+              <Stack.Screen name="auth/index" />
+              <Stack.Screen name="home" />
+            </Stack>
+          </SafeAreaProvider>
+        </GestureHandlerRootView>
       </PaperProvider>
     </Provider>
   );

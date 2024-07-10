@@ -1,7 +1,13 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
+export interface User {
+  id: string;
+  email: string;
+  posts: { id: string }[];
+}
+
 interface InitialState {
-  user?: { email: string; id: string };
+  user?: User;
   isPending: boolean;
 }
 
@@ -15,10 +21,7 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     getUser$: () => {},
-    setUser: (
-      state,
-      { payload }: PayloadAction<{ email: string; id: string }>
-    ) => {
+    setUser: (state, { payload }: PayloadAction<User>) => {
       state.user = payload;
     },
     setPending: (state, { payload }: PayloadAction<boolean>) => {

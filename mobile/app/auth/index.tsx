@@ -1,6 +1,6 @@
 import { ResErrorMessages } from "@/components/ResErrorMessages";
 import { env } from "@/constants/env";
-import { selectMessage, selectIsPending } from "@/services/redux/auth.selector";
+import { selectMessage, selectIsPending } from "@/services/selectors/auth.selector";
 import { authSlice } from "@/services/redux/auth.slice";
 import { useState } from "react";
 import { View, StyleSheet } from "react-native";

@@ -4,6 +4,7 @@ import createSagaMiddleware from "redux-saga";
 import { sagas } from "../saga";
 import { authSlice } from "./auth.slice";
 import { userSlice } from "./user.slice";
+import { postSlice } from "./post.slice";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -11,6 +12,7 @@ const reducer = combineReducers({
   [appSlice.name]: appSlice.reducer,
   [authSlice.name]: authSlice.reducer,
   [userSlice.name]: userSlice.reducer,
+  [postSlice.name]: postSlice.reducer,
 });
 
 export const store = configureStore({

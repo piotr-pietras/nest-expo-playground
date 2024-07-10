@@ -1,4 +1,4 @@
-import { selectUser } from "@/services/redux/user.selector";
+import { selectUser } from "@/services/selectors/user.selector";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Stack } from "expo-router";
 import { View, StyleSheet } from "react-native";
