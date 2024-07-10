@@ -19,6 +19,7 @@ export const postEntityAdapter = createEntityAdapter<Post, string>({
 interface InitialState {
   posts: ReturnType<typeof postEntityAdapter.getInitialState>;
   isPending: boolean;
+  message?: string | string[];
 }
 
 const initialState: InitialState = {
@@ -36,6 +37,16 @@ export const postSlice = createSlice({
     },
     setPending: (state, { payload }: PayloadAction<boolean>) => {
       state.isPending = payload;
+    },
+    addPost$: (_, _2: PayloadAction<Pick<Post, "title" | "body">>) => {},
+    addOnePost: (state, { payload }: PayloadAction<Post>) => {
+      postEntityAdapter.addOne(state.posts, payload);
+    },
+    setMessage: (state, { payload }: PayloadAction<string | string[]>) => {
+      state.message = payload;
+    },
+    removeMessage: (state) => {
+      state.message = undefined;
     },
   },
 });

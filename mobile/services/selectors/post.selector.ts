@@ -9,3 +9,6 @@ export const selectPosts = createSelector(selectEntity, (entity) => {
 });
 
 export const selectIsPending = (state: Store) => state.postSlice.isPending;
+export const selectMessage = (state: Store) => state.postSlice.message;
+
+

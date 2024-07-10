@@ -16,12 +16,12 @@ export class PostController {
   constructor(private postService: PostService) {}
 
   @Get()
-  get() {
-    return this.postService.getAll();
+  async get() {
+    return await this.postService.getAll();
   }
 
   @Post('add')
   async add(@Body() body: PostAddDto, @Headers('user-id') userId: string) {
-    return this.postService.addOne(body, userId);
+    return await this.postService.addOne(body, userId);
   }
 }

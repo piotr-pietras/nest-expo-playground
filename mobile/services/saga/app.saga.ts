@@ -9,8 +9,8 @@ const { setUser } = userSlice.actions;
 
 export function* appInitSaga() {
   yield takeLeading(appSlice.actions.appInit$, function* () {
+    setLoading(true);
     try {
-      setLoading(true);
       const user: User = yield call(getUser);
       if (user) {
         yield put(setUser(user));
@@ -19,7 +19,7 @@ export function* appInitSaga() {
         router.replace("/auth");
       }
     } catch (error) {
-      router.push("/auth");
+      router.replace("/auth");
     } finally {
       setLoading(false);
     }

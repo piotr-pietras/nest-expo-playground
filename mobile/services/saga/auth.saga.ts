@@ -8,13 +8,13 @@ const {
   signUp$,
   signIn$,
   setPending,
-  setMessage: setError,
-  removeMessage: removeError,
+  setMessage,
+  removeMessage,
 } = authSlice.actions;
 
 export function* signUpSaga() {
   yield takeLatest(signUp$, function* ({ payload }) {
-    yield put(removeError());
+    yield put(removeMessage());
     yield put(setPending(true));
     try {
       const res: Awaited<ReturnType<typeof signUp>> = yield call(
@@ -24,7 +24,7 @@ export function* signUpSaga() {
       yield call(AsyncStorage.setItem, "access_token", res.access_token);
       router.replace("/home");
     } catch (error) {
-      yield put(setError((error as any).message));
+      yield put(setMessage((error as any).message));
     } finally {
       yield put(setPending(false));
     }
@@ -33,7 +33,7 @@ export function* signUpSaga() {
 
 export function* signInSaga() {
   yield takeLatest(signIn$, function* ({ payload }) {
-    yield put(removeError());
+    yield put(removeMessage());
     yield put(setPending(true));
     try {
       const res: Awaited<ReturnType<typeof signIn>> = yield call(
@@ -43,7 +43,7 @@ export function* signInSaga() {
       yield call(AsyncStorage.setItem, "access_token", res.access_token);
       router.replace("/home");
     } catch (error) {
-      yield put(setError((error as any).message));
+      yield put(setMessage((error as any).message));
     } finally {
       yield put(setPending(false));
     }

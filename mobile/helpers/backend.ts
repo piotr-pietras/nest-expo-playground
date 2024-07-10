@@ -62,5 +62,22 @@ export const getPosts = async () => {
   if (payload?.statusCode && payload.statusCode >= 400) {
     throw payload;
   }
+  return payload as Post[];
+};
+
+export const addPost = async (body: Pick<Post, "title" | "body">) => {
+  const token = await AsyncStorage.getItem("access_token");
+  const res = await fetch(`${url}/post/add`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(body),
+  });
+  const payload = await res.json();
+  if (payload?.statusCode && payload.statusCode >= 400) {
+    throw payload;
+  }
   return payload as Post;
 };

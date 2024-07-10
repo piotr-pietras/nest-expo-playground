@@ -6,10 +6,9 @@ import {
 import { Stack, router } from "expo-router";
 import { useEffect } from "react";
 import { StyleSheet, View } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
-import { ActivityIndicator, Card, IconButton, Text } from "react-native-paper";
+import { RefreshControl, ScrollView } from "react-native-gesture-handler";
+import { Card, IconButton, Text } from "react-native-paper";
 import Animated, {
-  FadeIn,
   SequencedTransition,
   SlideInLeft,
 } from "react-native-reanimated";
@@ -27,9 +26,9 @@ export default function HomeScreen() {
     dispatch(getPosts$());
   }, []);
 
-  const toSettings = () => {
-    router.navigate("/home/config");
-  };
+  const toSettings = () => router.navigate("/home/config");
+  const toAdd = () => router.navigate("/home/add");
+  const onRefresh = () => dispatch(getPosts$());
 
   return (
     <>
@@ -44,13 +43,14 @@ export default function HomeScreen() {
       />
 
       <View style={styles.container}>
-        {isPedning && (
-          <Animated.View layout={SequencedTransition} entering={FadeIn}>
-            <ActivityIndicator animating={true} size={40} />
-          </Animated.View>
-        )}
+        <IconButton mode="contained" icon="plus" size={32} onPress={toAdd} />
         <Animated.View layout={SequencedTransition}>
-          <ScrollView>
+          <ScrollView
+            style={styles.scroll}
+            refreshControl={
+              <RefreshControl refreshing={isPedning} onRefresh={onRefresh} />
+            }
+          >
             {posts.map((post, i) => (
               <Animated.View
                 layout={SequencedTransition}
@@ -76,6 +76,9 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     padding: 10,
+  },
+  scroll: {
+    minHeight: "100%",
   },
   card: {
     padding: 10,
