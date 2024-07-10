@@ -1,5 +1,6 @@
 import { ResErrorMessages } from "@/components/ResErrorMessages";
-import { selectError, selectIsPending } from "@/services/redux/auth.selector";
+import { env } from "@/constants/env";
+import { selectMessage, selectIsPending } from "@/services/redux/auth.selector";
 import { authSlice } from "@/services/redux/auth.slice";
 import { useState } from "react";
 import { View, StyleSheet } from "react-native";
@@ -12,16 +13,17 @@ const { signUp$, signIn$ } = authSlice.actions;
 export default function AuthScreen() {
   const dispatch = useDispatch();
   const isPending = useSelector(selectIsPending);
-  const error = useSelector(selectError);
+  const message = useSelector(selectMessage);
 
   const [type, setType] = useState<"SIGN_IN" | "SIGN_UP">("SIGN_IN");
   const subtitle = type === "SIGN_IN" ? "Sign in yourself" : "Sign up yourself";
   const buttonText = type === "SIGN_IN" ? "Sign in!" : "Sign up!";
   const buttonTypeText = type === "SIGN_IN" ? "sign up" : "sign in";
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordR, setPasswordR] = useState("");
+  const isDev = env.ENVIRONMENT === "development";
+  const [email, setEmail] = useState(isDev ? "aaa@gmail.com" : "");
+  const [password, setPassword] = useState(isDev ? "Abc123!" : "");
+  const [passwordR, setPasswordR] = useState(isDev ? "Abc123!" : "");
 
   const isSignUpDisabled =
     isPending || !email || !password || !passwordR || password !== passwordR;
@@ -48,14 +50,14 @@ export default function AuthScreen() {
         <Text variant="headlineSmall">{subtitle}</Text>
         <TextInput
           style={styles.input}
-          placeholder="email"
+          label="email"
           value={email}
           onChangeText={(v) => setEmail(v)}
           disabled={isPending}
         />
         <TextInput
           style={styles.input}
-          placeholder="password"
+          label="password"
           value={password}
           onChangeText={(v) => setPassword(v)}
           disabled={isPending}
@@ -63,13 +65,13 @@ export default function AuthScreen() {
         {type === "SIGN_UP" && (
           <TextInput
             style={styles.input}
-            placeholder="repeat password"
+            label={"repeat password"}
             value={passwordR}
             onChangeText={(v) => setPasswordR(v)}
             disabled={isPending}
           />
         )}
-        <ResErrorMessages messages={error} />
+        <ResErrorMessages messages={message} />
         <Button
           mode="contained"
           onPress={onSend}

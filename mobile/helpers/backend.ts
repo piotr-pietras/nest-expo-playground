@@ -45,5 +45,5 @@ export const getUser = async () => {
   if (payload?.statusCode && payload.statusCode >= 400) {
     throw payload;
   }
-  return payload as { access_token: string };
+  return payload as { email: string; id: string };
 };

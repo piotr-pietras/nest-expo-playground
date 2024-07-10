@@ -2,18 +2,21 @@ import { call, put, takeLeading } from "redux-saga/effects";
 import { appSlice } from "../redux/app.slice";
 import { router } from "expo-router";
 import { getUser } from "@/helpers/backend";
+import { userSlice } from "../redux/user.slice";
 
 const { setInit, setLoading } = appSlice.actions;
+const { setUser } = userSlice.actions;
 
 export function* appInitSaga() {
   yield takeLeading(appSlice.actions.appInit$, function* () {
     try {
       setLoading(true);
-      const user: unknown = yield call(getUser);
+      const user: { email: string; id: string } = yield call(getUser);
       if (user) {
-        router.push("/home");
+        yield put(setUser(user));
+        router.replace("/home");
       } else {
-        router.push("/auth");
+        router.replace("/auth");
       }
     } catch (error) {
       router.push("/auth");

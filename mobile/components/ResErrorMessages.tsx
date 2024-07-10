@@ -18,7 +18,7 @@ export const ResErrorMessages = ({ messages }: ResErrorMessagesProps) => {
         </View>
       ) : (
         messages?.map((m) => (
-          <View style={styles.container}>
+          <View key={m} style={styles.container}>
             <Icon source={"circle"} size={6} color={colors.alert} />
             <Text style={styles.text}>{m}</Text>
           </View>

@@ -1,19 +1,27 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { router } from "expo-router";
+import { Stack, router } from "expo-router";
 import { View } from "react-native";
-import { Button, Text } from "react-native-paper";
+import { Button, IconButton, Text } from "react-native-paper";
 
 export default function HomeScreen() {
+  const toSettings = () => {
+    router.navigate("/home/config");
+  };
+
   return (
-    <View>
-      <Text>Home</Text>
-      <Button
-        onPress={() => {
-          AsyncStorage.clear();
+    <>
+      <Stack.Screen
+        options={{
+          title: "Home",
+          headerBackVisible: false,
+          headerRight: () => (
+            <IconButton mode="contained" icon={"cog"} onPress={toSettings} />
+          ),
         }}
-      >
-        clear token (DEV)
-      </Button>
-    </View>
+      />
+      <View>
+        <Text>Home</Text>
+      </View>
+    </>
   );
 }
