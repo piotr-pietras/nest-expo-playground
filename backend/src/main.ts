@@ -4,6 +4,7 @@ import 'dotenv/config';
 import { isNumberObject } from 'util/types';
 import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { DevInterceptor } from './dev.interceptor';
 
 async function bootstrap() {
   const port = process.env.HOST_PORT;
@@ -13,6 +14,7 @@ async function bootstrap() {
 
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalInterceptors(new DevInterceptor());
 
   const config = new DocumentBuilder().setTitle('doc').build();
   const document = SwaggerModule.createDocument(app, config);
